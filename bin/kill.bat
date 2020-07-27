@@ -1,5 +1,6 @@
+rem 关闭名称为 teclan-auto-update 的程序
 @echo off
-set name=teclan-auto-update-0.0.1.jar
+set name=teclan-auto-update
 echo char : %char%
 for /f "usebackq tokens=1-2" %%a in (`jps -l ^| findstr %name%`) do (
 		echo find process %%a %%b
