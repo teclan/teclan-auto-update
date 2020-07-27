@@ -69,7 +69,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <!-- https://github.com/teclan/teclan-exec  -->
+        <dependency>
+            <groupId>teclan.exec</groupId>
+            <artifactId>teclan-exec</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <properties>
