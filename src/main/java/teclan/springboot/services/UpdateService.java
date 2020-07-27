@@ -24,9 +24,7 @@ public class UpdateService {
            if(!FileUtils.exists(path)){
                throw new Exception(String.format("版本号:%s，补丁文件:%s 不存在"));
            }
-
            // 开始升级
-
             return ResultUtils.getResult(200,"升级成功");
         }catch (Exception e){
             LOGGER.error(e.getMessage(),e);
