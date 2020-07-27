@@ -26,4 +26,17 @@ public class UpdateDao {
         }
         return list.get(0).get("PATH").toString();
     }
+
+    /**
+     * 获取当前程序版本号
+     * @return
+     */
+    public String getCurrentVersion() throws Exception {
+
+        List<Map<String, Object>> list =  jdbcTemplate.queryForList("SELECT TOP 1 VERSION FROM VERSION_RECORD WHERE SUCCESS='1' ORDER BY UPDATED_AT DESC");
+        if(Assert.assertNull(list) ||list.size()==0 || Assert.assertNull(list.get(0))|| Assert.assertNull(list.get(0).get("PATH"))){
+            throw new Exception("获取版本号失败！");
+        }
+        return list.get(0).get("VERSION").toString();
+    }
 }

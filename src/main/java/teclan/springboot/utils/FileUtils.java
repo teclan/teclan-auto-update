@@ -1,5 +1,6 @@
 package teclan.springboot.utils;
 
+import com.google.common.io.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,9 +48,26 @@ public class FileUtils {
 	 */
 	public static void deleteFile(String path) {
 		try {
-			if (new File(path).exists()) {
-				new File(path).delete();
+			File file = new File(path);
+
+			if(!file.exists()){
+				LOGGER.warn("文件不存在，调过删除！{}",path);
+				return;
 			}
+
+			File[] files = file.listFiles();
+			for(File f:files){
+				if(f.isFile()){
+					LOGGER.info("正在删除:{}",file.getAbsolutePath());
+					f.delete();
+				}else{
+					deleteFile(f.getAbsolutePath());
+					LOGGER.info("正在删除:{}",file.getAbsolutePath());
+					f.delete();
+				}
+			}
+			LOGGER.info("正在删除:{}",file.getAbsolutePath());
+			file.delete();
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 		}
@@ -105,5 +123,35 @@ public class FileUtils {
 				}
 			}
 		}
+	}
+
+	public  static void rename(File src,File des){
+		LOGGER.info("重命名文件：{}->{}",src.getAbsolutePath(),des.getAbsolutePath());
+		src.renameTo(des);
+	}
+	public static void copy(File src,File des) throws IOException {
+
+		if(!exists(src)){
+			LOGGER.warn("源文件不存在,{}",src);
+			return;
+		}
+
+		File[] files = src.listFiles();
+		for(File file:files){
+			File target = new File(file.getAbsolutePath().replace(src.getAbsolutePath(),des.getAbsolutePath()));
+			if(file.isDirectory()){
+				copy(file,target);
+			}else{
+				try{
+					new File(target.getParent()).mkdirs();
+				}catch (Exception e){
+					LOGGER.error(e.getMessage(), e);
+				}
+				LOGGER.info("正在复制文件,{}->{}",file.getAbsolutePath(),target.getAbsolutePath());
+				Files.copy(file,target);
+				LOGGER.info("复制完成,{}->{}",file.getAbsolutePath(),target.getAbsolutePath());
+			}
+		}
+
 	}
 }
