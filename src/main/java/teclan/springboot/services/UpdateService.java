@@ -24,12 +24,12 @@ public class UpdateService {
     public JSONObject doUpdate(String version){
 
         try{
-//            String path = updateDao.getPatch(version);
-//            String currentVersion = updateDao.getCurrentVersion();
-            String currentVersion="0.0.01";
-            String  path = "E:\\Codes\\openSource\\teclan-auto-update\\teclan-auto-update-0.0.1.zip";
+            String path = updateDao.getPatch(version);
+            String currentVersion = updateDao.getCurrentVersion();
+//            String currentVersion="0.0.01";
+//            String  path = "E:\\Codes\\openSource\\teclan-auto-update\\teclan-auto-update-0.0.1.zip";
            if(!FileUtils.exists(path)){
-               throw new Exception(String.format("版本号:%s，补丁文件:%s 不存在"));
+               throw new Exception(String.format("版本号:%s，补丁文件:%s 不存在",version,path));
            }
            // 开始升级
             String finalPath = path;
